@@ -1,0 +1,8 @@
+*
+
+!.gitignore
+
+!fibo.cpp
+!makefile
+!README.md
+!wapm.toml
