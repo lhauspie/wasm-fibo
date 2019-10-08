@@ -1,8 +1,11 @@
-compile:
-	g++ fibo.cpp -o fibo
+prepare:
+	mkdir -p target
 
-wasm:
-	em++ -Os fibo.cpp -g -o fibo.js
+compile: prepare
+	g++ fibo.cpp -o target/fibo
+
+wasm: prepare
+	em++ fibo.cpp -g -o target/fibo.html
 
 clean:
-	rm -rf fibo fibo.wast fibo.wasm fibo.wasm.map fibo.js fibo.html
+	rm -rf target

@@ -1,49 +1,79 @@
 # wasm-fibo
-Calculates the fibonacci number of n : Fn
+Calculates the fibonacci number of n : Fn.
+
+The purpose of this repo is to dive in Web Assembly and Wasmer.
+The implementation of this fibo is in C++ and not optimized (no multi-threading).
 
 
-## How to
+## How to build Web Assembly
 
-Build the docker image that contains all the tools to build wasm binaries :
-```bash
-$ docker build . -t wasm
+### Pre-requisite
+
+1. Install emscripten by following the instructions of [emscripten.org](https://emscripten.org/)
+
+Or 
+
+1. Use a Docker image like this one:
+```
+docker run -it --name wasm --rm -v $PWD:/src robertaboukhalil/emsdk:1.38.26 bash
 ```
 
-Run this docker image by providing the project as volume
-```bash
-$ docker run -it --rm -v $PWD:/project wasm:latest
+### Build
+
+After you installed emscripten you should be able to build the `.wasm` file:
+```
+make wasm
 ```
 
-Run the `make` commands that you want to build conventional binaries:
-```bash
-$ make compile-cpp # to compile only fibo.cpp to fibo_cpp.exe
-$ make compile-rust # to compile only fibo.rs to fibo_rust.exe
-$ make compile # to do both previous commands at once
+### Test
+
+After the compilation, you can test the wasm binary file by typing the following command line:
+```
+node target/fibo.js 11 # should display "F(11) = 144"
 ```
 
-Run the `make` commands that you want to build Webassembly binaries:
-```bash
-$ make wasm-cpp # to compile only fibo.cpp to fibo_cpp.wasm
-$ make wasm-rust # to compile only fibo.rs to fibo_rust.wasm
-$ make wasm # to do both previous commands at once
+
+## How to run from Wasmer
+
+### Pre-requisite
+
+1. Build Web Assembly
+1. Install wasmer by following the instructions of [wasmer.io](https://wasmer.io/)
+
+### Run
+
+Just run it with wasmer:
+```
+wasmer run target/fibo.wasm 11 # should display "F(11) = 144"
 ```
 
-The `make clean` command will remove all binaries.
 
-Run the wasm file by using `node`:
+## How to publish to [wapm.io](https://wapm.io)
+
+### Pre-requisite
+
+1. Build Web Assembly
+1. Install wasmer by following the instructions of [wasmer.io](https://wasmer.io/)
+
+### Publish
+
+After you installed wasmer and built the `.wasm` file you should be able to publish it as a package after you logged in:
 ```
-node fibo_cpp.js 10
+wapm login
+wapm publish
 ```
 
-## Interesting Links
 
-### Tuto and Explorer
-https://emscripten.org  
-https://rustwasm.github.io/book/  
-https://mbebenita.github.io/WasmExplorer/
+## How to run from WAPM
 
-### Some blog posts
-https://medium.com/wasmer/executing-webassembly-in-your-rust-application-d5cd32e8ce46
-https://medium.com/wasmer/running-webassembly-from-any-language-5741f6320ccd
-https://opensource.com/article/19/4/command-line-playgrounds-webassembly
-https://ariya.io/2019/05/basics-of-memory-access-in-webassembly  
+### Pre-requisite
+
+1. Install wasmer by following the instructions of [wasmer.io](https://wasmer.io/)
+
+### Run
+
+Just install the wasm package `lhauspie/fibo` from wapm and then run it:
+```
+wapm install -g lhauspie/fibo
+fibo 11 # should display "F(11) = 144"
+```

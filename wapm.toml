@@ -1,6 +1,6 @@
 [package]
 name = "lhauspie/fibo"
-version = "0.0.1"
+version = "1.0.0"
 description = "Calculates the fibonacci number of n : Fn"
 license = "MIT"
 readme = "README.md"
@@ -10,7 +10,7 @@ disable-command-rename = false
 
 [[module]]
 name = "fibo"
-source = "fibo.wasm"
+source = "target/fibo.wasm"
 abi = "wasi"
 
 [[command]]

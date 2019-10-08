@@ -9,7 +9,6 @@ uint64_t fibo(uint64_t n) {
 
 int main(int argc, char *argv[]) {
   int n = atoi(argv[1]);
-  printf("%d\n", n);
-  printf("%" PRIu64 "\n", fibo(n));
+  printf("F(%d) = %" PRIu64 "\n", n, fibo(n));
   return 0;
 }
